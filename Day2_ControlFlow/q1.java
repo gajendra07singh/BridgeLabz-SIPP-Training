@@ -1,3 +1,4 @@
+// Which Spring is it?
 import java.util.Scanner;
 
 public class q1 {
