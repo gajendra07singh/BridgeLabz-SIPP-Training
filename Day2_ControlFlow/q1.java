@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// Which Spring is it?
+>>>>>>> 83abaa7b170cea5f78996bb3b27f1b9fd7f4a3f9
 import java.util.Scanner;
 
 public class q1 {
