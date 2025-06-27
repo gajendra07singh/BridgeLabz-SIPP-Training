@@ -4,7 +4,7 @@ public class divide_n_chocklets {
     public static void divide(int n, int m){
         int remaining=n%m;
         int each =n/m;
-        System.out.println(" number of chocolates each child gets"+each);
+        System.out.println(" number of chocolates each child gets "+each);
          System.out.println("the remaining chocklets "+remaining);
 
     }
