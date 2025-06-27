@@ -1,4 +1,4 @@
-public class question2 {
+public class profit_percent {
     public static void main(String[] args) {
         double sellingprice =191;
         double costprice =129;

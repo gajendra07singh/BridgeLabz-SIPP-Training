@@ -1,4 +1,4 @@
-public class question1 {
+public class distance_converter{
     public static void main(String[] args) {
         double kilometers = 10.8;
         double miles = kilometers * 0.6251;

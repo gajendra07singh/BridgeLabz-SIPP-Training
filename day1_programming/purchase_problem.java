@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class question10 {
+public class purchase_problem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         double unitprice= sc.nextDouble();

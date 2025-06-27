@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class question9 {
+public class miles_to_km {
     public static void main(String[] args) {
       Scanner sc = new Scanner(System.in);
       double km= sc.nextDouble();

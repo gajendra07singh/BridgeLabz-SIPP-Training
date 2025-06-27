@@ -1,4 +1,4 @@
-public class question4 {
+public class divide_pens {
     public static void main(String[] args) {
          int totalPens = 14;
         int totalStudents = 3;

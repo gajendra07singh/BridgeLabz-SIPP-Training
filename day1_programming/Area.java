@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q14 {
+public class areaoftriangleinchies {
     public static void main(String[] args) {
         Scanner sc =new Scanner (System.in);
         double base= sc.nextDouble();

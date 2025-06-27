@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class question3 {
+public class discount {
     public static void main(String[] args) {
         Scanner sc =new Scanner(System.in);
         double fee = sc.nextDouble();

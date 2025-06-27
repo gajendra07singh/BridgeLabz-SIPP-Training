@@ -1,4 +1,4 @@
-public class question8 {
+public class find_age {
     public static void main(String[] args) {
         double dob=2000;
         double currentyear=2024;

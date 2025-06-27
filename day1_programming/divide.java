@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q16 {
+public class divide {
     public static void main(String[] args) {
          Scanner sc =new Scanner (System.in);
         double a= sc.nextDouble();

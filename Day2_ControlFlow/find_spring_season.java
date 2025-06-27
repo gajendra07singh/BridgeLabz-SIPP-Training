@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
-// Which Spring is it?
->>>>>>> 83abaa7b170cea5f78996bb3b27f1b9fd7f4a3f9
+
 import java.util.Scanner;
 
-public class q1 {
+public class find_spring_season{
     public static void main(String[] args) {
         Scanner sc= new Scanner(System.in);
         int month=sc.nextInt();

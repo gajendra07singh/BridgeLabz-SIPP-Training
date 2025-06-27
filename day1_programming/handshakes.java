@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public  class q21 {
+public  class handshakes {
     public static void main(String[] args) {
         Scanner sc= new Scanner(System.in);
         int n=sc.nextInt();

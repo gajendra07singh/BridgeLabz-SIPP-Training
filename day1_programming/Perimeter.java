@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q12 {
+public class Perimeter {
     public static void main(String[] args) {
        Scanner sc = new Scanner(System.in);
        double perimeter= sc.nextDouble();

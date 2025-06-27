@@ -1,4 +1,4 @@
-public class question7 {
+public class avg_percent {
     public static void main(String[] args) {
         double mathmarks=94;
         double physicsmarks =95;

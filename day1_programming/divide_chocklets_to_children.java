@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q18 {
+public class divide_chocklets_to_children {
     public static void main(String[] args) {
         Scanner sc =new Scanner (System.in);
          int noofchoclate= sc.nextInt();

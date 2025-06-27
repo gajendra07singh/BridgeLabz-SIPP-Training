@@ -1,4 +1,4 @@
-public class question5 {
+public class volume {
     public static void main(String[] args) {
         double radiuskm =6378;
         double pi=Math.PI;

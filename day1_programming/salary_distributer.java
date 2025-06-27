@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q24 {
+public class salary_distributer {
     public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
         double salary= sc.nextDouble();

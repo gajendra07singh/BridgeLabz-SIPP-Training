@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q26 {
+public class temp_converter {
     public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
         double celcius= sc.nextDouble();
