@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class quotientandreminder {
+public class QuotientAndReminder {
      public static int[] findRemainderAndQuotient(int number, int divisor){
         int remainder=number%divisor;
         int quotient=number/divisor;

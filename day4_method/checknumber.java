@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class checknumber {
+public class CheckNumber {
     public static int checknumber(int n){
          if(n<0){
             return -1;

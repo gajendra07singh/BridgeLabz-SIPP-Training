@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class array_multiplication {
+public class Array_Multiplication {
     public static void main(String[] args) {
         Scanner sc =new Scanner(System.in);
         int number =sc.nextInt();
