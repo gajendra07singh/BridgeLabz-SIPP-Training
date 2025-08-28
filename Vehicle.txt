@@ -1,0 +1,92 @@
+// ---------- Interface ----------
+INTERFACE Rentable
+    METHOD rent()
+    METHOD returnVehicle()
+END INTERFACE
+
+
+// ---------- Abstract Class ----------
+ABSTRACT CLASS Vehicle IMPLEMENTS Rentable
+    ATTRIBUTE vehicleId
+    ATTRIBUTE brand
+    ATTRIBUTE model
+    ATTRIBUTE isRented = FALSE
+
+    CONSTRUCTOR(vehicleId, brand, model)
+        SET this.vehicleId = vehicleId
+        SET this.brand = brand
+        SET this.model = model
+
+    METHOD rent()
+        IF isRented == FALSE THEN
+            PRINT "Vehicle " + vehicleId + " rented successfully."
+            SET isRented = TRUE
+        ELSE
+            PRINT "Vehicle already rented."
+        END IF
+
+    METHOD returnVehicle()
+        IF isRented == TRUE THEN
+            PRINT "Vehicle " + vehicleId + " returned successfully."
+            SET isRented = FALSE
+        ELSE
+            PRINT "Vehicle was not rented."
+        END IF
+END CLASS
+
+
+// ---------- Concrete Vehicle Types ----------
+CLASS Car EXTENDS Vehicle
+    ATTRIBUTE seats
+
+    CONSTRUCTOR(vehicleId, brand, model, seats)
+        CALL super(vehicleId, brand, model)
+        SET this.seats = seats
+END CLASS
+
+
+CLASS Bike EXTENDS Vehicle
+    ATTRIBUTE engineCapacity
+
+    CONSTRUCTOR(vehicleId, brand, model, engineCapacity)
+        CALL super(vehicleId, brand, model)
+        SET this.engineCapacity = engineCapacity
+END CLASS
+
+
+CLASS Truck EXTENDS Vehicle
+    ATTRIBUTE loadCapacity
+
+    CONSTRUCTOR(vehicleId, brand, model, loadCapacity)
+        CALL super(vehicleId, brand, model)
+        SET this.loadCapacity = loadCapacity
+END CLASS
+
+
+// ---------- Factory Pattern ----------
+CLASS VehicleFactory
+    STATIC METHOD createVehicle(type, vehicleId, brand, model, extraAttribute)
+        SWITCH type
+            CASE "Car":
+                RETURN new Car(vehicleId, brand, model, extraAttribute)
+            CASE "Bike":
+                RETURN new Bike(vehicleId, brand, model, extraAttribute)
+            CASE "Truck":
+                RETURN new Truck(vehicleId, brand, model, extraAttribute)
+            DEFAULT:
+                PRINT "Invalid vehicle type"
+                RETURN NULL
+        END SWITCH
+END CLASS
+
+
+// ---------- Client Code ----------
+BEGIN MAIN
+    car1 = VehicleFactory.createVehicle("Car", "C101", "Toyota", "Camry", 5)
+    bike1 = VehicleFactory.createVehicle("Bike", "B202", "Yamaha", "R15", "150cc")
+
+    car1.rent()
+    car1.returnVehicle()
+
+    bike1.rent()
+END MAIN

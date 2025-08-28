@@ -1,0 +1,75 @@
+// -------- Graph Representation --------
+CLASS Graph
+    ATTRIBUTE adjacencyList   // Map<Zone, List<NeighborZones>>
+    ATTRIBUTE crimeData       // Map<Zone, CrimeScore>
+
+    METHOD addZone(zone)
+        IF zone NOT IN adjacencyList
+            adjacencyList[zone] = empty list
+            crimeData[zone] = 0
+
+    METHOD addRoad(zone1, zone2)
+        ADD zone2 to adjacencyList[zone1]
+        ADD zone1 to adjacencyList[zone2]
+
+    METHOD setCrimeScore(zone, score)
+        crimeData[zone] = score
+
+
+// -------- DFS Traversal --------
+CLASS CrimeAnalyzer
+    ATTRIBUTE graph
+    ATTRIBUTE visited
+
+    CONSTRUCTOR(graph)
+        this.graph = graph
+        this.visited = empty set
+
+    METHOD dfs(zone, threshold, riskyZones)
+        MARK zone as visited
+
+        IF graph.crimeData[zone] >= threshold THEN
+            ADD zone to riskyZones
+
+        FOR each neighbor IN graph.adjacencyList[zone]
+            IF neighbor NOT visited THEN
+                CALL dfs(neighbor, threshold, riskyZones)
+
+    METHOD findHighRiskZones(threshold)
+        riskyZones = empty list
+        FOR each zone IN graph.adjacencyList
+            IF zone NOT visited THEN
+                CALL dfs(zone, threshold, riskyZones)
+        RETURN riskyZones
+
+
+// -------- Main Program --------
+BEGIN MAIN
+    graph = new Graph()
+
+    // Add city zones (nodes)
+    CALL graph.addZone("ZoneA")
+    CALL graph.addZone("ZoneB")
+    CALL graph.addZone("ZoneC")
+    CALL graph.addZone("ZoneD")
+
+    // Add connections (edges/roads)
+    CALL graph.addRoad("ZoneA", "ZoneB")
+    CALL graph.addRoad("ZoneB", "ZoneC")
+    CALL graph.addRoad("ZoneC", "ZoneD")
+    CALL graph.addRoad("ZoneA", "ZoneD")
+
+    // Set crime data (past crime scores)
+    CALL graph.setCrimeScore("ZoneA", 80)
+    CALL graph.setCrimeScore("ZoneB", 40)
+    CALL graph.setCrimeScore("ZoneC", 95)
+    CALL graph.setCrimeScore("ZoneD", 30)
+
+    analyzer = new CrimeAnalyzer(graph)
+
+    threshold = 70
+    riskyZones = analyzer.findHighRiskZones(threshold)
+
+    PRINT "High-risk zones (crime score >= " + threshold + "):"
+    PRINT riskyZones
+END MAIN
