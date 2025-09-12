@@ -1,0 +1,48 @@
+Distributed Load Balancer
+
+START
+
+INITIALIZE Queue servers = [S1, S2, S3]
+
+FUNCTION addServer(server)
+    ADD server to END of servers
+
+FUNCTION removeServer(server)
+    REMOVE server from servers if it exists
+
+FUNCTION assignRequest(request)
+    IF servers is empty
+        PRINT "No servers available for " + request
+    ELSE
+        server = REMOVE first element from servers
+        PRINT request + " → " + server
+        ADD server to END of servers   // round-robin
+
+// --- Simulation ---
+
+// Step 1: Initial servers
+servers = [S1, S2, S3]
+
+// Step 2: First requests
+assignRequest(R1)   // R1 → S1
+assignRequest(R2)   // R2 → S2
+assignRequest(R3)   // R3 → S3
+
+// Step 3: Add new server
+addServer(S4)       // servers = [S1, S2, S3, S4]
+
+// Step 4: Continue requests
+assignRequest(R4)   // R4 → S1
+assignRequest(R5)   // R5 → S2
+assignRequest(R6)   // R6 → S3
+assignRequest(R7)   // R7 → S4
+
+// Step 5: Remove failing server
+removeServer(S2)    // servers = [S1, S3, S4]
+
+// Step 6: Continue requests
+assignRequest(R8)   // R8 → S1
+assignRequest(R9)   // R9 → S3
+assignRequest(R10)  // R10 → S4
+
+END

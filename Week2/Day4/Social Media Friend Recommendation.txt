@@ -1,0 +1,53 @@
+Social Media Friend Recommendation
+START
+
+DEFINE Graph as Map<String, List<String>>
+    // Example initialization
+    Graph = {
+        "Alice": ["Bob", "Charlie"],
+        "Bob": ["Alice", "David", "Emma"],
+        "Charlie": ["Alice", "Frank"],
+        "David": ["Bob"],
+        "Emma": ["Bob"],
+        "Frank": ["Charlie"]
+    }
+
+FUNCTION recommendFriends(user)
+    CREATE visitedSet = empty set
+    CREATE queue = empty queue
+    CREATE level = 0
+    CREATE suggestions = empty list
+
+    ADD user to queue
+    ADD user to visitedSet
+
+    WHILE queue is not empty AND level < 2
+        levelSize = size of queue
+        FOR i = 1 TO levelSize
+            current = queue.dequeue()
+            FOR each friend in Graph[current]
+                IF friend NOT in visitedSet
+                    ADD friend to visitedSet
+                    queue.enqueue(friend)
+                    IF level == 1 // 2nd-degree connection
+                        ADD friend to suggestions
+        INCREMENT level by 1
+
+    // Remove user's direct friends and self from suggestions
+    directFriends = Graph[user]
+    FOR each friend in directFriends
+        IF friend in suggestions
+            REMOVE friend from suggestions
+    IF user in suggestions
+        REMOVE user from suggestions
+
+    PRINT "Current User:", user
+    PRINT "Direct Friends:", directFriends
+    PRINT "Friend Suggestions:", suggestions
+
+END FUNCTION
+
+MAIN PROGRAM
+    CALL recommendFriends("Alice")
+
+END

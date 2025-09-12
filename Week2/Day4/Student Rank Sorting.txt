@@ -1,0 +1,66 @@
+Student Rank Sorting
+START
+
+DEFINE CLASS Student
+    ATTRIBUTES:
+        name : String
+        marks : int
+
+MAIN PROGRAM
+    CREATE students[] = [
+        Student("Rahul", 88),
+        Student("Aditi", 95),
+        Student("Zoya", 88),
+        Student("Karan", 76),
+        Student("Meera", 95),
+        Student("Aarav", 92)
+    ]
+
+    PRINT "Unsorted List"
+    FOR each student in students
+        PRINT student.name + " - " + student.marks
+
+    CALL mergeSort(students, 0, students.length - 1)
+
+    PRINT "Sorted Rank List"
+    FOR i = 0 TO students.length - 1
+        PRINT "Rank " + (i+1) + ": " + students[i].name + " - " + students[i].marks
+
+END
+
+// Merge Sort Function
+FUNCTION mergeSort(array, left, right)
+    IF left < right
+        mid = (left + right) / 2
+        mergeSort(array, left, mid)
+        mergeSort(array, mid+1, right)
+        merge(array, left, mid, right)
+
+FUNCTION merge(array, left, mid, right)
+    CREATE temp[] of size (right - left + 1)
+    i = left, j = mid + 1, k = 0
+
+    WHILE i <= mid AND j <= right
+        IF array[i].marks > array[j].marks
+            temp[k] = array[i]
+            i++, k++
+        ELSE IF array[i].marks < array[j].marks
+            temp[k] = array[j]
+            j++, k++
+        ELSE // marks equal, tie-break by name ascending
+            IF array[i].name < array[j].name
+                temp[k] = array[i]
+                i++, k++
+            ELSE
+                temp[k] = array[j]
+                j++, k++
+
+    WHILE i <= mid
+        temp[k] = array[i], i++, k++
+    WHILE j <= right
+        temp[k] = array[j], j++, k++
+
+    FOR m = 0 TO temp.length - 1
+        array[left + m] = temp[m]
+
+END FUNCTION

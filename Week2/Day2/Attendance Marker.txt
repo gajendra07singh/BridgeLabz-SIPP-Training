@@ -1,0 +1,55 @@
+Attendance Marker
+START
+
+DEFINE CLASS AttendanceSystem
+    ATTRIBUTE: attendance[30][30]   // 30 students × 30 days
+
+    METHOD markAttendance(studentId, day, status)
+        attendance[studentId][day] = status
+        // status = 1 (Present), 0 (Absent)
+
+    METHOD dailySummary(day)
+        SET count = 0
+        FOR each student FROM 0 TO 29
+            IF attendance[student][day] == 1
+                count = count + 1
+        PRINT "Students present on Day", day, "=", count
+
+    METHOD monthlySummary(studentId)
+        SET totalPresent = 0
+        FOR each day FROM 0 TO 29
+            totalPresent = totalPresent + attendance[studentId][day]
+        PRINT "Student", studentId, "attended", totalPresent, "days"
+        RETURN totalPresent
+
+    METHOD defaulterList()
+        FOR each student FROM 0 TO 29
+            totalPresent = monthlySummary(student)
+            IF totalPresent < 22       // 22 days ≈ 75% of 30
+                PRINT "Student", student, "is a defaulter"
+
+    METHOD displayAttendance()
+        FOR each student FROM 0 TO 29
+            FOR each day FROM 0 TO 29
+                PRINT attendance[student][day] + " "
+            PRINT new line
+
+MAIN PROGRAM
+    CREATE AttendanceSystem system
+
+    // Example: Marking Day 1
+    CALL system.markAttendance(1, 1, 1)   // Student 1 present
+    CALL system.markAttendance(3, 1, 0)   // Student 3 absent
+
+    // Check daily summary for Day 10
+    CALL system.dailySummary(10)
+
+    // Check Student 5’s monthly attendance
+    total = system.monthlySummary(5)
+    IF total > 20
+        PRINT "Student 5 attended more than 20 days"
+
+    // Get Defaulter list
+    CALL system.defaulterList()
+
+END

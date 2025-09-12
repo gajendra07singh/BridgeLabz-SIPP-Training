@@ -1,0 +1,40 @@
+Parking Lot Ticketing System
+START
+
+CLASS Vehicle
+    ATTRIBUTES:
+        vehicleNumber
+        entryTime
+    METHOD calculateFee(exitTime)
+        PRINT "Generic fee - to be overridden"
+
+CLASS Car EXTENDS Vehicle
+    METHOD calculateFee(exitTime)
+        duration = exitTime - entryTime (in hours, round up)
+        fee = 50 + (duration - 1) * 30   // first hour ₹50, rest ₹30/hr
+        RETURN fee
+
+CLASS Bike EXTENDS Vehicle
+    METHOD calculateFee(exitTime)
+        duration = exitTime - entryTime (in hours, round up)
+        fee = 20 + (duration - 1) * 10   // first hour ₹20, rest ₹10/hr
+        RETURN fee
+
+CLASS Truck EXTENDS Vehicle
+    METHOD calculateFee(exitTime)
+        duration = exitTime - entryTime (in hours, round up)
+        fee = 100 + (duration - 1) * 50  // first hour ₹100, rest ₹50/hr
+        RETURN fee
+
+MAIN PROGRAM
+    // Vehicles enter
+    CREATE Car object with number = "KA05AB1234", entryTime = 10:00
+    CREATE Bike object with number = "KA05XY7890", entryTime = 11:15
+    CREATE Truck object with number = "KA09TR5566", entryTime = 09:30
+
+    // Vehicles exit
+    CALL car.calculateFee(13:30)   → print ticket + ₹125
+    CALL bike.calculateFee(12:00) → print ticket + ₹30
+    CALL truck.calculateFee(14:00)→ print ticket + ₹325
+
+END

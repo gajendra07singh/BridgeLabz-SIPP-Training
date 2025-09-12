@@ -1,0 +1,42 @@
+Pet Clinic Registration
+START
+
+DEFINE class Pet
+    ATTRIBUTES:
+        name : String
+        species : String
+        lastVaccinationDate : LocalDate
+
+    METHOD checkVaccinationStatus(currentDate)
+        monthsGap = difference in months between lastVaccinationDate and currentDate
+        IF monthsGap > 12
+            RETURN "Vaccination OVERDUE! Please vaccinate immediately."
+        ELSE IF monthsGap == 11
+            RETURN "Vaccination due in 1 month. Reminder set."
+        ELSE
+            RETURN "Vaccination up-to-date."
+
+DEFINE class ClinicManager
+    ATTRIBUTES:
+        pets : List<Pet>
+
+    METHOD registerPet(Pet p)
+        ADD p to pets
+        PRINT "Registering Pet: " + p.name + " (" + p.species + ")"
+        PRINT "Last Vaccination: " + p.lastVaccinationDate
+        status = p.checkVaccinationStatus(currentDate)
+        PRINT "Status: " + status
+
+MAIN PROGRAM
+    CREATE ClinicManager manager
+
+    CREATE Pet bruno (name="Bruno", species="Dog", lastVaccinationDate=2024-10-12)
+    CALL manager.registerPet(bruno)
+
+    CREATE Pet mittens (name="Mittens", species="Cat", lastVaccinationDate=2023-06-15)
+    CALL manager.registerPet(mittens)
+
+    CREATE Pet snowy (name="Snowy", species="Rabbit", lastVaccinationDate=2024-09-10)
+    CALL manager.registerPet(snowy)
+
+END

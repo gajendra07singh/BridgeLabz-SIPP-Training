@@ -1,0 +1,72 @@
+Bus Route Navigator
+START
+
+CLASS Node
+    ATTRIBUTES:
+        stopName
+        next
+
+CLASS LinkedList
+    ATTRIBUTE: head
+
+    METHOD insertStop(afterStop, newStop)
+        CREATE newNode with stopName = newStop
+        SEARCH for node with stopName = afterStop
+        IF found
+            newNode.next = current.next
+            current.next = newNode
+        ELSE
+            PRINT "Stop not found, cannot insert"
+
+    METHOD deleteStop(stopName)
+        IF head.stopName == stopName
+            head = head.next
+            RETURN
+        SET prev = head
+        SET current = head.next
+        WHILE current != NULL
+            IF current.stopName == stopName
+                prev.next = current.next
+                RETURN
+            MOVE prev = current
+            MOVE current = current.next
+        PRINT "Stop not found, cannot delete"
+
+    METHOD searchStop(stopName)
+        SET current = head
+        WHILE current != NULL
+            IF current.stopName == stopName
+                PRINT "Stop found in route"
+                RETURN TRUE
+            MOVE current = current.next
+        PRINT "Stop not found in route"
+        RETURN FALSE
+
+    METHOD displayRoute()
+        SET current = head
+        WHILE current != NULL
+            PRINT current.stopName + " → "
+            MOVE current = current.next
+        PRINT "END"
+
+MAIN PROGRAM
+    CREATE LinkedList route
+    INSERT initial stops: Depot → Main Street → City Mall → Hospital → Airport
+
+    PRINT "Initial Route"
+    CALL route.displayRoute()
+
+    // Add University after City Mall
+    CALL route.insertStop("City Mall", "University")
+    PRINT "After Adding University"
+    CALL route.displayRoute()
+
+    // Remove Hospital
+    CALL route.deleteStop("Hospital")
+    PRINT "After Removing Hospital"
+    CALL route.displayRoute()
+
+    // Search for Airport
+    CALL route.searchStop("Airport")
+
+END

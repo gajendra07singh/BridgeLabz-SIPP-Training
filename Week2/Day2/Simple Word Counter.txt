@@ -1,0 +1,36 @@
+Simple Word Counter
+START
+
+INPUT: articleText = "Sports bring people together. Sports inspire teamwork. Sports create leaders."
+
+STEP 1: Normalize Text
+    CONVERT articleText to lowercase
+    REMOVE punctuation (.,!?)
+
+STEP 2: Split into Words
+    words[] = articleText.split(" ")
+
+STEP 3: Count Frequencies (Using Map<String, Integer>)
+    CREATE empty map wordCount
+    FOR each word in words[]
+        IF wordCount contains word
+            wordCount[word] = wordCount[word] + 1
+        ELSE
+            wordCount[word] = 1
+
+STEP 4: Use Stream API for Counting
+    wordCount = Arrays.stream(words)
+                  .collect(Collectors.groupingBy(word -> word, Collectors.counting()))
+
+STEP 5: Find Specific Insights
+    PRINT "Occurrences of 'sports' = " + wordCount["sports"]
+
+    mostFrequentWord = find entry in wordCount with MAX value
+    PRINT "Most frequent word = " + mostFrequentWord
+
+    rareWords = find all entries with count == 1
+    PRINT "Rare words = " + rareWords
+
+OUTPUT: Word frequency map + insights
+
+END

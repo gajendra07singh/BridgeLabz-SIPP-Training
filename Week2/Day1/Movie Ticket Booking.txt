@@ -1,0 +1,99 @@
+Movie Ticket Booking 
+
+START
+
+CLASS Ticket
+    VARIABLE movieName
+    VARIABLE showTime
+    VARIABLE seatNumber
+    VARIABLE price
+    VARIABLE isBooked
+
+    CONSTRUCTOR(movieName, showTime, seatNumber, price)
+        this.movieName = movieName
+        this.showTime = showTime
+        this.seatNumber = seatNumber
+        this.price = price
+        this.isBooked = false
+
+    METHOD book()
+        this.isBooked = true
+        PRINT "Ticket booked: " + movieName + " at " + showTime + " seat " + seatNumber
+
+    METHOD cancel()
+        this.isBooked = false
+        PRINT "Ticket canceled: " + movieName + " at " + showTime + " seat " + seatNumber
+
+
+--------------------------------------
+
+CLASS Theatre
+    VARIABLE name
+    VARIABLE availableSeats : List of Strings
+    VARIABLE tickets : List of Ticket
+
+    CONSTRUCTOR(name, seats)
+        this.name = name
+        this.availableSeats = seats
+        this.tickets = empty list
+
+    METHOD issueTicket(movieName, showTime, seatNumber, price)
+        IF seatNumber in availableSeats
+            ticket = new Ticket(movieName, showTime, seatNumber, price)
+            ticket.book()
+            REMOVE seatNumber from availableSeats
+            ADD ticket to tickets
+            RETURN ticket
+        ELSE
+            PRINT "Seat " + seatNumber + " not available."
+            RETURN null
+
+    METHOD cancelTicket(ticket)
+        IF ticket != null AND ticket.isBooked = true
+            ticket.cancel()
+            ADD ticket.seatNumber back to availableSeats
+        ELSE
+            PRINT "Ticket cannot be canceled."
+
+
+--------------------------------------
+
+CLASS Customer
+    VARIABLE name
+
+    CONSTRUCTOR(name)
+        this.name = name
+
+    METHOD browseMovies(theatre)
+        PRINT "Movies available at " + theatre.name
+
+    METHOD bookTicket(theatre, movieName, showTime, seatNumber, price)
+        PRINT name + " trying to book seat " + seatNumber
+        ticket = theatre.issueTicket(movieName, showTime, seatNumber, price)
+        RETURN ticket
+
+    METHOD cancelTicket(theatre, ticket)
+        PRINT name + " requesting cancellation."
+        theatre.cancelTicket(ticket)
+
+
+--------------------------------------
+
+CLASS Simulation
+    METHOD MAIN()
+        // Setup theatre
+        theatre = new Theatre("CineMax", ["A10", "A11", "A12"])
+
+        // Customer Ravi
+        customer = new Customer("Ravi")
+
+        // Ravi browses
+        customer.browseMovies(theatre)
+
+        // Ravi books Avengers
+        ticket1 = customer.bookTicket(theatre, "Avengers: Endgame", "6 PM", "A12", 300)
+
+        // Later Ravi cancels
+        customer.cancelTicket(theatre, ticket1)
+
+END

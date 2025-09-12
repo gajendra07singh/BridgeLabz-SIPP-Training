@@ -1,0 +1,80 @@
+
+
+
+2. Autocomplete Search Suggestions
+
+START
+
+// Node structure of Trie
+CLASS TrieNode
+    VARIABLE children : Map (character → TrieNode)
+    VARIABLE isEndOfWord : Boolean
+    VARIABLE popularity : Number
+    VARIABLE word : String   // store full word for suggestions
+
+// Trie data structure
+CLASS Trie
+    VARIABLE root : TrieNode
+
+    CONSTRUCTOR()
+        root = new TrieNode()
+
+    FUNCTION insert(word, popularity)
+        current = root
+        FOR each char in word
+            IF char not in current.children
+                current.children[char] = new TrieNode()
+            current = current.children[char]
+        current.isEndOfWord = true
+        current.word = word
+        current.popularity = popularity
+
+    FUNCTION search(prefix, N)
+        current = root
+        FOR each char in prefix
+            IF char not in current.children
+                RETURN []   // no suggestions
+            current = current.children[char]
+
+        // collect all words under this prefix
+        suggestions = []
+        CALL dfs(current, suggestions)
+
+        // sort by popularity (highest first)
+        SORT suggestions by popularity DESC
+
+        RETURN first N words from suggestions
+
+    FUNCTION dfs(node, suggestions)
+        IF node.isEndOfWord = true
+            ADD (node.word, node.popularity) to suggestions
+        FOR each child in node.children
+            CALL dfs(child, suggestions)
+
+
+// -------- Simulation --------
+
+MAIN
+    trie = new Trie()
+
+    // Step 1: Insert some keywords
+    trie.insert("pizza hut", 50)
+    trie.insert("pizza point", 40)
+    trie.insert("pita bread", 70)
+    trie.insert("pizzeria", 30)
+
+    // Step 2: User types "pi"
+    PRINT trie.search("pi", 3)
+    // Output: ["pita bread", "pizza hut", "pizza point"]
+
+    // Step 3: Update popularity dynamically
+    trie.insert("pita bread", 100)   // overwrite popularity
+
+    // Step 4: Add new keyword instantly
+    trie.insert("pineapple cafe", 60)
+
+    // Step 5: Search again
+    PRINT trie.search("pi", 3)
+    // Output: ["pita bread", "pineapple cafe", "pizza hut"]
+
+END

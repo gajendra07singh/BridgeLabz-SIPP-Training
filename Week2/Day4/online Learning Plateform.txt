@@ -1,0 +1,67 @@
+online Learning Plateform
+START
+
+DEFINE ABSTRACT CLASS Course
+    ATTRIBUTES:
+        title : String
+        duration : String
+        price : double
+        instructor : Instructor
+        schedule : Schedule
+    ABSTRACT METHOD conductAssessment()
+
+DEFINE CLASS ProgrammingCourse EXTENDS Course
+    METHOD conductAssessment()
+        PRINT "Conducting coding challenge on HackerRank..."
+
+DEFINE CLASS DesignCourse EXTENDS Course
+    METHOD conductAssessment()
+        PRINT "Submit a portfolio of 3 app designs."
+
+DEFINE CLASS BusinessCourse EXTENDS Course
+    METHOD conductAssessment()
+        PRINT "Group case-study presentation scheduled next week."
+
+DEFINE CLASS Instructor
+    ATTRIBUTES:
+        name : String
+        expertise : String
+        rating : double
+
+DEFINE CLASS Schedule
+    ATTRIBUTES:
+        dayOfWeek : String
+        timeSlot : String
+        mode : String   // "Live" or "Recorded"
+
+MAIN PROGRAM
+    CREATE Instructor rajeev ("Dr. Rajeev", "Java Expert", 4.8)
+    CREATE Schedule progSchedule ("Monday", "7-9 PM", "Live")
+    CREATE Course javaMastery = new ProgrammingCourse(
+        title="Java Mastery", duration="3 months", price=4999,
+        instructor=rajeev, schedule=progSchedule
+    )
+
+    CREATE Instructor ananya ("Ms. Ananya", "UX Designer", 4.7)
+    CREATE Schedule designSchedule ("Flexible", "Anytime", "Recorded")
+    CREATE Course uxDesign = new DesignCourse(
+        title="UX Design Fundamentals", duration="2 months", price=3999,
+        instructor=ananya, schedule=designSchedule
+    )
+
+    CREATE Instructor arvind ("Mr. Arvind", "Business Analyst", 4.6)
+    CREATE Schedule businessSchedule ("Friday", "6-8 PM", "Live")
+    CREATE Course businessStrategy = new BusinessCourse(
+        title="Business Strategy 101", duration="1.5 months", price=5999,
+        instructor=arvind, schedule=businessSchedule
+    )
+
+    // Display details
+    FOR each course in [javaMastery, uxDesign, businessStrategy]
+        PRINT "Course: " + course.title
+        PRINT "Instructor: " + course.instructor.name + " (" + course.instructor.expertise + ")"
+        PRINT "Schedule: " + course.schedule.dayOfWeek + " " + course.schedule.timeSlot +
+               " (" + course.schedule.mode + ")"
+        CALL course.conductAssessment()
+
+END

@@ -1,0 +1,38 @@
+Online Exam Portal
+START
+
+CLASS User
+    ATTRIBUTES:
+        username
+        password
+    METHOD login()
+        PRINT "Generic login"
+
+CLASS Student EXTENDS User
+    ATTRIBUTE:
+        enrolled (true/false)
+    METHOD login()    // overriding
+        IF username and password are correct AND enrolled = true
+            PRINT "Student logged in successfully"
+            PRINT "Access: Take exams, view results, track progress"
+        ELSE
+            PRINT "Login failed for student"
+
+CLASS Admin EXTENDS User
+    ATTRIBUTE:
+        hasAdminRights (true/false)
+    METHOD login()    // overriding
+        IF username and password are correct AND hasAdminRights = true
+            PRINT "Admin logged in successfully"
+            PRINT "Access: Create exams, manage questions, review performance"
+        ELSE
+            PRINT "Login failed for admin"
+
+MAIN PROGRAM
+    CREATE Student object with username = "john123", password = "student123", enrolled = true
+    CREATE Admin object with username = "admin123", password = "admin@123", hasAdminRights = true
+
+    CALL login() on Student object
+    CALL login() on Admin object
+
+END

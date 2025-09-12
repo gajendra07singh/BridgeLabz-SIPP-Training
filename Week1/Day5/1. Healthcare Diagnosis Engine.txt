@@ -1,0 +1,70 @@
+1. Healthcare Diagnosis Engine
+
+INTERFACE DiagnosisStrategy
+    METHOD diagnose(symptoms: List of Strings) RETURNS List of Strings
+
+CLASS RuleBasedDiagnosis IMPLEMENTS DiagnosisStrategy
+    METHOD diagnose(symptoms)
+        diseases = empty list
+        IF symptoms contain "fever" AND "cough" AND "fatigue"
+            ADD "Flu" to diseases
+            ADD "COVID-19" to diseases
+        RETURN diseases
+
+CLASS AIBasedDiagnosis IMPLEMENTS DiagnosisStrategy
+    METHOD diagnose(symptoms)
+        diseases = empty list
+        IF symptoms contain "headache" AND "dizziness"
+            ADD "Migraine" to diseases
+            ADD "Vertigo" to diseases
+        RETURN diseases
+
+CLASS ProbabilityBasedDiagnosis IMPLEMENTS DiagnosisStrategy
+    METHOD diagnose(symptoms)
+        diseases = empty list
+        IF symptoms contain "fever"
+            ADD "80% chance of Malaria" to diseases
+            ADD "20% chance of Dengue" to diseases
+        RETURN diseases
+
+CLASS GeneticPatternDiagnosis IMPLEMENTS DiagnosisStrategy
+    METHOD diagnose(symptoms)
+        diseases = empty list
+        IF symptoms contain "gene_mutation"
+            ADD "Genetic Disorder: Thalassemia" to diseases
+        IF symptoms contain "family_history"
+            ADD "Possible Hereditary Disease" to diseases
+        RETURN diseases
+
+CLASS DiagnosisContext
+    VARIABLE strategy : DiagnosisStrategy
+
+    METHOD setStrategy(strategy)
+        this.strategy = strategy
+
+    METHOD executeDiagnosis(symptoms)
+        IF strategy is null
+            PRINT "Error: No diagnosis strategy set!"
+            RETURN empty list
+        ELSE
+            RETURN strategy.diagnose(symptoms)
+
+CLASS HospitalApp
+    METHOD MAIN()
+        CREATE context = new DiagnosisContext()
+
+        // Case 1: General Medicine
+        context.setStrategy(new RuleBasedDiagnosis)
+        PRINT "General Medicine Diagnosis: " + context.executeDiagnosis(["fever", "cough", "fatigue"])
+
+        // Case 2: Neurology
+        context.setStrategy(new AIBasedDiagnosis)
+        PRINT "Neurology Diagnosis: " + context.executeDiagnosis(["headache", "dizziness", "nausea"])
+
+        // Case 3: Probability Based
+        context.setStrategy(new ProbabilityBasedDiagnosis)
+        PRINT "Probability Diagnosis: " + context.executeDiagnosis(["fever"])
+
+        // Case 4: Genetic Diagnosis (new algorithm)
+        context.setStrategy(new GeneticPatternDiagnosis)
+        PRINT "Genetics Diagnosis: " + context.executeDiagnosis(["gene_mutation", "family_history"])

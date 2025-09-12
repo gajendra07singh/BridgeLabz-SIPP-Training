@@ -1,0 +1,45 @@
+Daily Tasks Organizer
+START
+
+CLASS DailyTasksOrganizer
+    VARIABLE tasks  // LinkedHashMap<Integer, String>
+    VARIABLE nextId = 1
+
+    CONSTRUCTOR()
+        tasks = empty LinkedHashMap
+
+    METHOD addTask(description)
+        tasks.put(nextId, description)
+        PRINT "Task " + nextId + " added: " + description
+        nextId = nextId + 1
+
+    METHOD removeTask(taskId)
+        IF tasks.containsKey(taskId)
+            tasks.remove(taskId)
+            PRINT "Task " + taskId + " removed."
+        ELSE
+            PRINT "Task " + taskId + " not found."
+
+    METHOD viewTasks()
+        PRINT "Pending Tasks:"
+        FOR EACH (id, desc) IN tasks
+            PRINT id + " → " + desc
+
+
+--------------------------------------
+
+CLASS Simulation
+    METHOD MAIN()
+        organizer = new DailyTasksOrganizer()
+
+        // Morning tasks
+        organizer.addTask("Check emails")
+        organizer.addTask("Prepare sales report")
+        organizer.addTask("Call client")
+        organizer.viewTasks()
+
+        // Midday - remove task 2
+        organizer.removeTask(2)
+        organizer.viewTasks()
+
+END

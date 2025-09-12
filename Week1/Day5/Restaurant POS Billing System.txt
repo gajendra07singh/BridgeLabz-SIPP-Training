@@ -1,0 +1,119 @@
+Restaurant POS Billing System
+
+INTERFACE TaxCalculator
+    METHOD calculateTax(amount: Number) RETURNS Number
+
+CLASS FoodTax IMPLEMENTS TaxCalculator
+    METHOD calculateTax(amount)
+        RETURN amount * 0.05   // 5% GST
+
+CLASS BeverageTax IMPLEMENTS TaxCalculator
+    METHOD calculateTax(amount)
+        RETURN amount * 0.12   // 12% GST
+
+CLASS ImportedTax IMPLEMENTS TaxCalculator
+    METHOD calculateTax(amount)
+        baseTax = amount * 0.05   // 5% GST
+        customsDuty = amount * 0.10   // Example 10% customs duty
+        RETURN baseTax + customsDuty
+
+// Future extension example: Luxury Tax
+CLASS LuxuryTax IMPLEMENTS TaxCalculator
+    METHOD calculateTax(amount)
+        RETURN amount * 0.20   // 20% luxury tax
+
+
+----------------------------------------------
+
+INTERFACE DiscountPolicy
+    METHOD applyDiscount(amount: Number) RETURNS Number
+
+CLASS NoDiscount IMPLEMENTS DiscountPolicy
+    METHOD applyDiscount(amount)
+        RETURN amount
+
+CLASS FlatDiscount IMPLEMENTS DiscountPolicy
+    VARIABLE flatAmount = 100
+    METHOD applyDiscount(amount)
+        RETURN amount - flatAmount
+
+CLASS PercentageDiscount IMPLEMENTS DiscountPolicy
+    VARIABLE percent = 0.10
+    METHOD applyDiscount(amount)
+        RETURN amount - (amount * percent)
+
+// Future extension example: Buy 1 Get 1
+CLASS BuyOneGetOneDiscount IMPLEMENTS DiscountPolicy
+    METHOD applyDiscount(amount)
+        // Simplified logic: assume every second item is free
+        RETURN amount / 2
+
+
+----------------------------------------------
+
+CLASS MenuItem
+    VARIABLE name: String
+    VARIABLE price: Number
+    VARIABLE taxCalculator: TaxCalculator
+
+    CONSTRUCTOR(name, price, taxCalculator)
+        this.name = name
+        this.price = price
+        this.taxCalculator = taxCalculator
+
+    METHOD getTotalPrice()
+        tax = taxCalculator.calculateTax(price)
+        RETURN price + tax
+
+
+----------------------------------------------
+
+CLASS Bill
+    VARIABLE items: List of MenuItem
+    VARIABLE discountPolicy: DiscountPolicy
+
+    CONSTRUCTOR(discountPolicy)
+        this.items = empty list
+        this.discountPolicy = discountPolicy
+
+    METHOD addItem(item: MenuItem)
+        ADD item to items
+
+    METHOD calculateFinalAmount()
+        subtotal = 0
+        FOR each item IN items
+            subtotal = subtotal + item.getTotalPrice()
+        discountedTotal = discountPolicy.applyDiscount(subtotal)
+        RETURN discountedTotal
+
+
+----------------------------------------------
+
+CLASS RestaurantPOS
+    METHOD MAIN()
+        // Scenario 1
+        PRINT "------ Scenario 1 ------"
+        bill1 = new Bill(new PercentageDiscount)  // 10% off
+
+        item1 = new MenuItem("Paneer Tikka", 200, new FoodTax)
+        item2 = new MenuItem("Coke", 100, new BeverageTax)
+        item3 = new MenuItem("Imported Cheese", 500, new ImportedTax)
+
+        bill1.addItem(item1)
+        bill1.addItem(item2)
+        bill1.addItem(item3)
+
+        PRINT "Final Bill Amount (10% off): " + bill1.calculateFinalAmount()
+
+        // Scenario 2: Introduce Buy 1 Get 1 without touching old code
+        PRINT "------ Scenario 2 ------"
+        bill2 = new Bill(new BuyOneGetOneDiscount)
+        bill2.addItem(new MenuItem("Pizza", 400, new FoodTax))
+        bill2.addItem(new MenuItem("Pizza", 400, new FoodTax))
+        PRINT "Final Bill Amount (BOGO): " + bill2.calculateFinalAmount()
+
+        // Scenario 3: Add LuxuryTax seamlessly
+        PRINT "------ Scenario 3 ------"
+        bill3 = new Bill(new NoDiscount)
+        bill3.addItem(new MenuItem("Imported Wine (Luxury)", 1000, new LuxuryTax))
+        PRINT "Final Bill Amount (Luxury Tax): " + bill3.calculateFinalAmount()

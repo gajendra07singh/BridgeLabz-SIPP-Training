@@ -1,0 +1,65 @@
+Online Exam Portal
+START
+
+CLASS User
+    VARIABLE username
+    VARIABLE password
+
+    CONSTRUCTOR(username, password)
+        this.username = username
+        this.password = password
+
+    METHOD login()
+        PRINT "Base login: checking credentials only"
+
+------------------------------------
+
+CLASS Student EXTENDS User
+    VARIABLE enrolledCourse
+
+    CONSTRUCTOR(username, password, enrolledCourse)
+        CALL super(username, password)
+        this.enrolledCourse = enrolledCourse
+
+    METHOD login()
+        IF credentials are valid AND enrolledCourse is not null
+            PRINT "Student " + username + " logged in. Showing exams..."
+        ELSE
+            PRINT "Student login failed: not enrolled or invalid credentials."
+
+------------------------------------
+
+CLASS Admin EXTENDS User
+    VARIABLE isStaff
+
+    CONSTRUCTOR(username, password, isStaff)
+        CALL super(username, password)
+        this.isStaff = isStaff
+
+    METHOD login()
+        IF credentials are valid AND isStaff = true
+            PRINT "Admin " + username + " logged in. Showing exam management tools..."
+        ELSE
+            PRINT "Admin login failed: insufficient privileges."
+
+------------------------------------
+
+CLASS PortalSimulation
+    METHOD MAIN()
+        // Example 1: Student login
+        student1 = new Student("john123", "pass123", "Computer Science")
+        student1.login()
+
+        // Example 2: Student not enrolled
+        student2 = new Student("alice456", "pass456", null)
+        student2.login()
+
+        // Example 3: Admin login
+        admin1 = new Admin("admin01", "adminPass", true)
+        admin1.login()
+
+        // Example 4: Invalid Admin
+        admin2 = new Admin("staff99", "wrongPass", false)
+        admin2.login()
+
+END
