@@ -1,0 +1,70 @@
+// ---------- Data Classes ----------
+CLASS Student
+    ATTRIBUTE id
+    ATTRIBUTE name
+
+    CONSTRUCTOR(id, name)
+        this.id = id
+        this.name = name
+
+    METHOD toString()
+        RETURN "Student[ID=" + id + ", Name=" + name + "]"
+END CLASS
+
+
+CLASS Course
+    ATTRIBUTE code
+    ATTRIBUTE title
+
+    CONSTRUCTOR(code, title)
+        this.code = code
+        this.title = title
+
+    METHOD toString()
+        RETURN "Course[Code=" + code + ", Title=" + title + "]"
+END CLASS
+
+
+// ---------- Course Registration ----------
+CLASS CourseRegistration
+    ATTRIBUTE courseMap   // Map<Course, List<Student>>
+
+    CONSTRUCTOR()
+        courseMap = empty map
+
+    METHOD registerStudent(course, student)
+        IF course NOT IN courseMap THEN
+            courseMap[course] = empty list
+        END IF
+        ADD student TO courseMap[course]
+
+    METHOD displayRegistrations()
+        FOR each course IN courseMap
+            PRINT "Course: " + course
+            PRINT "Enrolled Students:"
+            FOR each student IN courseMap[course]
+                PRINT "  - " + student
+END CLASS
+
+
+// ---------- Main Program ----------
+BEGIN MAIN
+    // Create Courses
+    course1 = new Course("C101", "Data Structures")
+    course2 = new Course("C102", "Operating Systems")
+
+    // Create Students
+    s1 = new Student("S01", "Alice")
+    s2 = new Student("S02", "Bob")
+    s3 = new Student("S03", "Charlie")
+
+    // Register Students
+    reg = new CourseRegistration()
+    CALL reg.registerStudent(course1, s1)
+    CALL reg.registerStudent(course1, s2)
+    CALL reg.registerStudent(course2, s2)
+    CALL reg.registerStudent(course2, s3)
+
+    // Display Registrations
+    CALL reg.displayRegistrations()
+END MAIN

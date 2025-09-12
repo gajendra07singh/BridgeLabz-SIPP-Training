@@ -1,0 +1,72 @@
+CLASS Account
+    ATTRIBUTE accountNumber
+    ATTRIBUTE balance
+
+    CONSTRUCTOR(accountNumber, balance)
+        this.accountNumber = accountNumber
+        this.balance = balance
+    END CONSTRUCTOR
+
+    METHOD deposit(amount)
+        balance = balance + amount
+        PRINT "Deposited: ", amount, " | New Balance: ", balance
+    END METHOD
+
+    METHOD withdraw(amount)
+        PRINT "Generic withdrawal. Rules defined in subclasses."
+    END METHOD
+
+    METHOD displayBalance()
+        PRINT "Account ", accountNumber, " | Balance: ", balance
+    END METHOD
+END CLASS
+
+
+CLASS SavingAccount EXTENDS Account
+    ATTRIBUTE minBalance = 500
+
+    CONSTRUCTOR(accountNumber, balance)
+        SUPER(accountNumber, balance)
+    END CONSTRUCTOR
+
+    METHOD withdraw(amount) OVERRIDE
+        IF balance - amount >= minBalance THEN
+            balance = balance - amount
+            PRINT "Withdrawn ", amount, " from Saving Account. New Balance: ", balance
+        ELSE
+            PRINT "❌ Withdrawal denied! Must maintain minimum balance of ", minBalance
+        END IF
+    END METHOD
+END CLASS
+
+
+CLASS CurrentAccount EXTENDS Account
+    ATTRIBUTE overdraftLimit = 1000
+
+    CONSTRUCTOR(accountNumber, balance)
+        SUPER(accountNumber, balance)
+    END CONSTRUCTOR
+
+    METHOD withdraw(amount) OVERRIDE
+        IF balance + overdraftLimit >= amount THEN
+            balance = balance - amount
+            PRINT "Withdrawn ", amount, " from Current Account. New Balance: ", balance
+        ELSE
+            PRINT "❌ Withdrawal denied! Overdraft limit exceeded."
+        END IF
+    END METHOD
+END CLASS
+
+
+MAIN
+    acc1 = NEW SavingAccount("S1001", 2000)
+    acc2 = NEW CurrentAccount("C2001", 500)
+
+    acc1.displayBalance()
+    acc1.withdraw(1700)   // will fail due to min balance
+    acc1.withdraw(1000)   // allowed
+
+    acc2.displayBalance()
+    acc2.withdraw(1200)   // allowed due to overdraft
+    acc2.withdraw(2000)   // denied
+END MAIN

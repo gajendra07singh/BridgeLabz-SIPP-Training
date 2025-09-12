@@ -1,0 +1,97 @@
+CLASS Flight
+    ATTRIBUTE flightNo
+    ATTRIBUTE price
+    ATTRIBUTE duration   // in minutes
+
+    CONSTRUCTOR(flightNo, price, duration)
+        SET this.flightNo = flightNo
+        SET this.price = price
+        SET this.duration = duration
+
+    METHOD toString()
+        RETURN "Flight: " + flightNo + ", Price: " + price + ", Duration: " + duration
+END CLASS
+
+
+CLASS FlightComparator
+    METHOD compare(f1, f2)
+        IF f1.price < f2.price THEN
+            RETURN -1
+        ELSE IF f1.price > f2.price THEN
+            RETURN 1
+        ELSE
+            // If prices are same, compare duration
+            IF f1.duration < f2.duration THEN
+                RETURN -1
+            ELSE IF f1.duration > f2.duration THEN
+                RETURN 1
+            ELSE
+                RETURN 0
+            END IF
+        END IF
+END CLASS
+
+
+// ---------- Merge Sort ----------
+CLASS MergeSortFlights
+    ATTRIBUTE comparator
+
+    CONSTRUCTOR(comparator)
+        SET this.comparator = comparator
+
+    METHOD mergeSort(flights, left, right)
+        IF left < right THEN
+            mid = (left + right) / 2
+            CALL mergeSort(flights, left, mid)
+            CALL mergeSort(flights, mid+1, right)
+            CALL merge(flights, left, mid, right)
+        END IF
+
+    METHOD merge(flights, left, mid, right)
+        CREATE empty tempList
+
+        i = left
+        j = mid + 1
+
+        WHILE i <= mid AND j <= right
+            IF comparator.compare(flights[i], flights[j]) <= 0 THEN
+                ADD flights[i] to tempList
+                i++
+            ELSE
+                ADD flights[j] to tempList
+                j++
+            END IF
+        END WHILE
+
+        WHILE i <= mid
+            ADD flights[i] to tempList
+            i++
+
+        WHILE j <= right
+            ADD flights[j] to tempList
+            j++
+
+        // Copy back to original list
+        FOR k FROM 0 TO size(tempList)-1
+            flights[left + k] = tempList[k]
+END CLASS
+
+
+// ---------- Main Program ----------
+BEGIN MAIN
+    flights = empty list
+    ADD new Flight("AI101", 4500, 180) to flights
+    ADD new Flight("SJ205", 3500, 240) to flights
+    ADD new Flight("IN302", 4500, 150) to flights
+    ADD new Flight("UK404", 2800, 300) to flights
+    ADD new Flight("AI505", 3500, 200) to flights
+
+    PRINT "Before Sorting:"
+    PRINT flights
+
+    sorter = new MergeSortFlights(new FlightComparator())
+    CALL sorter.mergeSort(flights, 0, size(flights)-1)
+
+    PRINT "After Sorting (by Price, then Duration):"
+    PRINT flights
+END MAIN
